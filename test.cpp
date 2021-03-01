@@ -10,10 +10,8 @@
 
 // just for testing
 #include <iostream>
-int main()
-{
+int main(){
     using namespace std;
     cout << "HelloWorld\n";
-    cout << "2333\n";
     return 0;
 }
