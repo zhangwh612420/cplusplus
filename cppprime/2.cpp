@@ -2,9 +2,23 @@
 
 int main()
 {
-    std::cout << "Enter two numbers : " << std::endl;
-    int v1 = 0, v2 = 0;
-    std::cin >> v1 >> v2;
-    std::cout << "The sum of " << v1 << " and " << v2 << " is " << v1 + v2 << std::endl;
-    return 0;
+    int flagVal = 0, countNum = 0, currVal = 0;
+    if (std::cin >> flagVal)
+    {
+        countNum = 1;
+        while (std::cin >> currVal)
+        {
+            if (currVal == flagVal)
+            {
+                countNum += 1;
+            }
+            else
+            {
+                std::cout << "This number " << flagVal << " occurs " << countNum << " times" << std::endl;
+                flagVal = currVal;
+                countNum = 1;
+            }
+        }
+        std::cout << "This number " << flagVal << " occurs " << countNum << " times" << std::endl;
+    }
 }
