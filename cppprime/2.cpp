@@ -14,6 +14,7 @@ int main()
             }
             else
             {
+                // just for test
                 std::cout << "This number " << flagVal << " occurs " << countNum << " times" << std::endl;
                 flagVal = currVal;
                 countNum = 1;
