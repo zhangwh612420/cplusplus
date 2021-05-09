@@ -80,7 +80,7 @@ Sales_data add(const Sales_data& item1, const Sales_data& item2) {
 }
 // when we define a function out of the struct when is function is CONST ,we need keep this
 // and we need to define this funtion with struct's name
-double Sales_data ::avg_price() const {
+inline double Sales_data ::avg_price() const {
     if (units_sold) {
         return revenue / units_sold;
     } else {
