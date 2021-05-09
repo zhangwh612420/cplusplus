@@ -9,11 +9,33 @@ using std::istream;
 using std::ostream;
 using std::string;
 // every function must be declration in the struct but can be define out of the struct
-struct Sales_data {
+class Sales_data {
+    //in order to makesure read print add function can access the private member so we need to define friend
+    //friend does not means there function are this class's member
+    // firend declration not real declration just give these function access to private data
+    friend Sales_data add(const Sales_data&, const Sales_data&);
+    friend ostream& print(ostream&, const Sales_data&);
+    friend istream& read(istream&, Sales_data&);
+
+   private:
+    // so that user's code will not influence the data in the class
+    // user only can call the interface api to change the data
     string book_num;
     unsigned units_sold = 0;
     double revenue = 0.0;
-    // Sales_data's member function use point .  to call
+    // these fucntion just declration
+    double avg_price() const;
+    // contribute function
+    // this default contribute function will told your complier that we need a default function
+    // if we didn't have this function we must use other function below, so we can't bulit a Sales_data without ini value
+   public:
+    Sales_data() = default;
+    Sales_data(const string& s)
+        : book_num(s) {}
+    Sales_data(const string& s, unsigned n, double p)
+        : book_num(s), units_sold(n), revenue(p * n) {}
+    Sales_data(istream&);  //this contribute function just a declration not define
+    // Sales_data's member function
     // this function is inline function, because this function define in the struct
     // we add CONST after the function means this function will not modify this instance's member data
     // and const object can't call non-const function
@@ -28,19 +50,17 @@ struct Sales_data {
         // but we can use this in a function's statement return this -> book_num;
         // because this always point to "this" so it is a const pointer
     }
-    // these fucntion just declration
     Sales_data& combine(const Sales_data&);
-    double avg_price() const;
 };
 // Sales_data's no member function can't call these function by point
+// although we have declration in the friend statement but we still need to declration in here
 Sales_data add(const Sales_data&, const Sales_data&);
 ostream& print(ostream&, const Sales_data&);
 istream& read(istream&, Sales_data&);
-Sales_data total;
-
 // read will change the Sales_data instance so we need to use reference
 // IO can't be copy so we also need to use reference
 // also this function will change the content of stream so we use normal reference not const reference
+// these functions below are not member fucntion so when we define these we didn't need Sales_data ::
 istream& read(istream& is, Sales_data& item) {
     double price = 0;
     is >> item.book_num >> item.units_sold >> price;
@@ -73,7 +93,13 @@ Sales_data& Sales_data::combine(const Sales_data& rsale_data) {
     revenue += rsale_data.revenue;
     return *this;  //this is a pointer(include address),so we need to use *
 }
+//define of contribute function
+Sales_data ::Sales_data(istream& is) {
+    read(is, *this);  //"this" means caller * to read address because read need Sales_data&
+}
+
 int main() {
+    Sales_data total;
     if (read(cin, total)) {
         Sales_data trans;
         while (read(cin, trans)) {

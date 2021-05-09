@@ -1,6 +1,19 @@
-const int a = 1;
-int b = 2;
-int* const p = &a;
-const int* p1 = &a;
-const int* const p2 = &a;
-const int* const p2 = &b;
+#include <string>
+using std::string;
+class Screeb {
+   public:
+    typedef string::size_type pos;
+    Screeb(/* args */);
+    ~Screeb();
+
+   private:
+    pos cursor = 0;
+    pos height = 0;
+    string content;
+};
+
+Screeb::Screeb(/* args */) {
+}
+
+Screeb::~Screeb() {
+}

@@ -10,6 +10,11 @@ struct Person {
     string name() const {
         return first_name + " " + last_name;
     }
+    Person(istream& is) {
+        read(is, *this);
+    }
+    Person(const string& first_name, const string& last_name, const string& address)
+        : first_name(first_name), last_name(last_name), address(address) {}
 };
 
 ostream& print(ostream& os, const Person& item) {
