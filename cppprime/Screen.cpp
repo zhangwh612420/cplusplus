@@ -9,10 +9,15 @@ using std::string;
 using std::vector;
 class Screen {
    public:
+    friend class Windows_mgr;
+
     void some_member() const;
     // if you want to definne a member of a class you must define fist use second
     typedef string::size_type pos;  // this statement == using pos = string :: size_type
-    Screen() = default;             //because we have another contribute function so this default function is necessary
+    pos Screen::size() const {
+        return height * width;
+    }
+    Screen() = default;  //because we have another contribute function so this default function is necessary
     Screen(pos ht, pos wd)
         : height(ht), width(wd), content(ht * wd, ' ') {}
     Screen(pos ht, pos wd, char c)
@@ -80,9 +85,22 @@ void Screen::some_member() const {
 }
 
 class Windows_mgr {
+   public:
+    using screen_index = vector<Screen>::size_type;  // different vector has different size_type so we need to declration that
+    void clear(screen_index);
+    screen_index add_screen(const Screen&);
+
    private:
     vector<Screen> screens{Screen(24, 80, ' ')};
 };
+void Windows_mgr::clear(screen_index si) {
+    Screen& s = screens[si];
+    s.content = string(s.height * s.width, ' ');
+}
+Windows_mgr ::screen_index Windows_mgr::add_screen(const Screen& item) {
+    screens.push_back(item);
+    return screens.size() - 1;
+}
 
 int main() {
     Screen my_screen(5, 5, 'X');
