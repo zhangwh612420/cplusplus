@@ -18,6 +18,9 @@ class Screen {
         return height * width;
     }
     Screen() = default;  //because we have another contribute function so this default function is necessary
+    // remember that copy != init especially const can not be given value by copy but can be given by init
+    // so const must use Class's name (para list):/* statement of ini */ {}
+    // WARNING we did better keep the order of list of ini is same with the order of class's data member
     Screen(pos ht, pos wd)
         : height(ht), width(wd), content(ht * wd, ' ') {}
     Screen(pos ht, pos wd, char c)
